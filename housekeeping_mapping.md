@@ -23,9 +23,9 @@ A housekeeper (`VACUUM`) visits a building and walks room by room. In each room,
 
 ### Room turnover
 
-When tenants leave campus (`DELETE`) or get reassigned to new rooms (`UPDATE` — which in this system creates a new tenant in a new room while the old one stays behind), their belongings remain in the old room. The housekeeper clears out those belongings and updates the building's free-space registry (`free space map`) so the front desk knows the room has space for new arrivals.
+When tenants leave campus (`DELETE`) or get assigned to new rooms (`UPDATE` — which in this system creates new belongings for a tenant in another room), their belongings remain in the old room. The housekeeper clears out the old things and updates the building's free-space registry (`free space map`) so the front desk knows the room has space for new arrivals.
 
-If this work falls behind, departed tenants' belongings accumulate. New arrivals get directed to fresh rooms because existing rooms aren't marked as having space. The building grows larger than its active population justifies. This is bloat.
+If this work falls behind, departed tenants' stuff accumulates. New arrivals get directed to fresh rooms because existing rooms aren't marked as having space. The building grows larger than its active population justifies, which is known as bloat.
 
 Two things keep bloat sticky even when the housekeeper keeps pace with departures. The first is that emptying a room frees its space for reuse but doesn't shrink the building. The housekeeper consolidates the free space in a cleared room and tells the front desk the room is available, but the building keeps its footprint: an empty room in the middle of the building stays part of the building, and only when the rooms at the very end are all empty can the outer wall be pulled in. Reclaiming the building's actual footprint — not just freeing rooms for reuse — takes a rebuild (below).
 
