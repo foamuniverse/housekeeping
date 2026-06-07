@@ -4,7 +4,7 @@
 
 > *Vacuuming is like exercise: if it hurts, you're not doing enough of it.* — Robert Haas
 
-The word "vacuum" at face value suggests a cleaner at work, and clearing out stuff left behind by PostgreSQL's MVCC storage engine after deletes or updates is indeed one of the things a housekeeping round does — but there are three others, and the failures that bring people to a guide like this are usually failures of one of those three, mistaken for trouble with the clearing. So before the failures, it is worth walking the campus alongside a housekeeper to see them at work. Once the jobs are properly conceptually separated, failures aren't lumped and a single cleaning image, and the right fix for each comes into view.
+The word "vacuum" at face value suggests a cleaner at work, and clearing out stuff left behind by PostgreSQL's MVCC storage engine after deletes or updates is indeed one of the things a housekeeping round does — but there are two plus one (analyze aka the census in our housekeeping metaphor) others, and the failures that bring people to a guide like this are usually failures of any one of those four, too often conflated or confused with the first. So before the looking at the failure modes individually, it is worth walking the campus alongside a housekeeper to see them at work. Once the jobs are properly conceptually separated, failure modes aren't lumped under a single cleaning image, to allow the correct fix for any of them to come into view.
 
 ## What a housekeeping round does
 
