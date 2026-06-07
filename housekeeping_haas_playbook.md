@@ -1,6 +1,6 @@
 # When housekeeping fails: a diagnostic guide in campus terms
 
-*The failure taxonomy and the remedies below are Robert Haas's, from his talk on understanding and fixing autovacuum (PGConf.EU 2023). They are used here as a skeleton; the work of the piece is to show, in the campus vocabulary of the mapping document, what is actually happening when each failure occurs, with the PostgreSQL settings named alongside.*
+*The failure taxonomy and the remedies below are Robert Haas's from his talk on understanding and fixing autovacuum (PGConf.EU 2023). They are used here as a skeleton to showcase the superior explanatory power of the campus vocabulary laid out in the the mapping document, with the actual PostgreSQL terms named alongside.*
 
 > *Vacuuming is like exercise: if it hurts, you're not doing enough of it.* — Robert Haas
 
