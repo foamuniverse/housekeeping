@@ -1,6 +1,6 @@
 ### Housekeeping
 
-PostgreSQL's VACUUM is one command that does three unrelated things — reclaiming space, maintaining the visibility map, and freezing transaction IDs against wraparound — named after only one of them. Run as a background daemon (autovacuum), it also performs a fourth, separate job: ANALYZE, which updates planner statistics. The name points operators at cleanup when reclaiming space is often not the problem.
+PostgreSQL's VACUUM is one command that does three unrelated things — reclaiming space, maintaining the visibility map, and freezing transaction IDs against wraparound — named after only one of them. Run as a background daemon (autovacuum), it also performs a fourth, separate job: ANALYZE, which updates planner statistics. The name misdirects operators when reclaiming space is often not the problem.
 
 These documents build a campus metaphor that makes the four functions legible.
 
