@@ -10,7 +10,7 @@ Then the mage king moved on to other projects, as mage kings do, and his apprent
 
 Forty years passed. The vacuum cleaner was still running under the same name, doing four unrelated jobs, and nobody who hadn't studied the history could tell you why it was called that.
 
-Yet the magic returned with a stranger appearing at Stonebraker's court with knowledge of the future and a problem caused by ancient names not fitting the time travelers modern times anymore. 
+Yet the magic returned with a stranger appearing at Stonebraker's court with knowledge of the future and a problem caused by ancient names not fitting the time traveler's modern times anymore. 
 
 ---
 
