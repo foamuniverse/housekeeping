@@ -158,7 +158,7 @@ Stonebraker was quiet for a moment. "That's a consequence of the thirty-two-bit 
 
 "How does it end?" asked Stonebraker.
 
-"I don't know yet, dude. I came here to ask your data mage highness for help."
+"I don't know yet, dude. I came here to ask your data mage's highness for help."
 
 The king was quiet for a while. Then he picked up a pen and crossed out VACUUM on the document in front of him. Above it he wrote HOUSEKEEPING.
 
