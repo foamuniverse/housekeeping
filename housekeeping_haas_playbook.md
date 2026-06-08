@@ -30,7 +30,7 @@ A housekeeper went into a building and has not come out. Sometimes nothing has t
 
 The usual reason a round drags is the dullest one: the housekeeper has been told to work slowly, and is obeying. They work in a rhythm — a burst of work, a pause, another burst — and there are two ways to make them faster: a larger burst, or a shorter pause.
 
-When picking a lever, the burst is usually the appropriate choice. A pause can only be shortened so far — you hit a floor and stop gaining. The burst can be extended indefinitely. Tell the housekeeper to do twice the work before pausing, or seven times, and the round speeds up by just that, predictably. So the lever is the size of the burst (`autovacuum_vacuum_cost_limit`), not the length of the pause (`autovacuum_vacuum_cost_delay`).
+A pause can only be shortened so far, and the default already low — you hit a floor and stop gaining. The burst can be extended up to a high limit. Tell the housekeeper to do twice the work before pausing, or seven times, and the round speeds up by just that, predictably. So the better lever is usually the size of the burst (`autovacuum_vacuum_cost_limit`), not the length of the pause (`autovacuum_vacuum_cost_delay`).
 
 > If a config was carried forward from before version 12, you'd want to consider an exception to the guidance to adjust the burst and leave the pause as it is. By the time version 12 was released, the storage that maintainers took to be typical had become fast enough that cutting the default pause tenfold made sense as a one-time correction. So an instance carrying a configuration specifying a pre-version-12 sleep duration is running on a pause meant for another era's hardware, and might want something closer to the shorter modern default.
 
