@@ -178,7 +178,7 @@ Ted landed on his skateboard at the campus gates amidst a throng of students wal
 
 Riding his board along tree-lined campus paths, he passed building 7 in the physics district. Stopping to check the situation, he found a housekeeper inside, working room by room, unhurried. The status board in the lobby was almost entirely green. The researcher's office was empty and quiet — deadline met, paper submitted, session closed.
 
-Don Alejandro on the restaurant patio behond the campus gates was sitting across from Dulcinea laughing at something. Don Alejandro's shirt was clean. No grease. No screwdriver in his pocket. On the table between them, next to a half-empty bottle of wine was a thick manual with a title Ted had never seen before: *Campus Housekeeping: A Guide to Room Turnover, Tenant Census, Registration Stamping, and Status Board Maintenance.*
+Don Alejandro on the restaurant patio beyond the campus gates was sitting across from Dulcinea laughing at something. Don Alejandro's shirt was clean. No grease. No screwdriver in his pocket. On the table between them, next to a half-empty bottle of wine was a thick manual with a title Ted had never seen before: *Campus Housekeeping: A Guide to Room Turnover, Tenant Census, Registration Stamping, and Status Board Maintenance.*
 
 Don Alejandro saw Ted rolling past and gave him a small nod, the kind that means: everything is under control and always was.
 
