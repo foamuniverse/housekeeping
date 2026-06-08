@@ -1,10 +1,8 @@
 # Housekeeping
 
-PostgreSQL's `VACUUM` is one command that does three unrelated things — reclaiming space, maintaining the visibility map, and freezing transaction IDs against wraparound — named after only one of them. Run as a background daemon (autovacuum), it also performs a fourth separate job that updates planner statistics. 
+PostgreSQL's VACUUM is one command that does three unrelated things — reclaiming space, maintaining the visibility map, and freezing transaction IDs against wraparound — named after only one of them. The autovacuum daemon runs it automatically, along with a fourth job, ANALYZE, which updates the planner's statistics. Four jobs, one misleading name: "vacuum" says cleanup, but three of the four aren't cleanup, and when something goes wrong the name points you at a space-reclaiming function that might have nothing to do with the problem. This repo builds a university-campus housekeeping metaphor that gives each job its own name, so the four stop collapsing into one and reasoning about them comes more naturally.
 
-By suggesting cleanup, `VACUUM` by itself misdirects naive problem solvers in situations where reclaiming space is not the issue at hand. Documents in this repo build a university campus housekeeping metaphor that intends to make the four functions legible.
-
-*quixote_time_travel.md* — the metaphor, as a story. A time-traveling DBA explains to Michael Stonebraker, the computer scientist behind the original academic research POSTGRES project that became PostgreSQL a decade later and had a since-removed time-travel feature, what the `VACUUM` command evolved into over forty years, and why it should have been called HOUSEKEEPING.
+*quixote_time_travel.md* — the metaphor, as a story. A time-traveling DBA explains to Michael Stonebraker, the computer scientist behind the 1980s Berkeley POSTGRES research project that became PostgreSQL a decade on and had a since-removed time-travel feature, what the `VACUUM` command evolved into over forty years, and why it should have been called HOUSEKEEPING.
 
 *housekeeping_mapping.md* — the campus model mapped to the actual system: the four functions, the autovacuum dispatcher and workers, the failsafe vacuum, manual vacuum, rebuild operations, the failure modes, and the configuration parameters in campus terms.
 
