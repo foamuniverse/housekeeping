@@ -1,6 +1,6 @@
 # Counterfactually Fixing PostgreSQL Essential Background Task Naming: From Vacuum to Housekeeping
 
-*This document proposes an alternative mapping vocabulary for a crucial subset of PostgreSQL's configuration and diagnostic terms, for explanatory purposes. The central term VACUUM, which brackets the subset — a single name covering several unrelated jobs, inherited from last-century designs — actively misleads about the task's contemporary scope. The aim is to give users a coherent lens to read the real terms through, not to suggest they be changed in software.*
+*This document proposes an alternative mapping vocabulary for a crucial subset of PostgreSQL's configuration and diagnostic terms, for explanatory purposes. The central term `VACUUM` — a single name covering several unrelated jobs, inherited from last-century designs — actively misleads about the task's contemporary scope. The aim is to give users a coherent lens to read the real terms through, not to suggest they be changed in software.*
 
 
 *Databases are commonly explained as libraries — the index is a card catalog, finding a book is a query. That metaphor covers lookups and stops. It has no room for dead rows accumulating on shelves, background maintenance, bloat, or registration wraparound, because a library's defining property is order, and the thing we need to explain is managed disorder. A campus contains a library, but it also contains buildings that get dirty, corridors that get congested, maintenance staff, a registration office, and a housing authority. The operational reality of a database fits inside a campus, not a library.*
@@ -25,7 +25,7 @@ A housekeeper (`VACUUM`) visits a building and walks room by room. In each room,
 
 When tenants leave campus (`DELETE`) or get assigned to new rooms (`UPDATE` — which in this system creates new belongings for a tenant in another room), their belongings remain in the old room. The housekeeper clears out the old things and updates the building's free-space registry (`free space map`) so the front desk knows the room has space for new arrivals.
 
-If this work falls behind, departed tenants' stuff accumulates. New arrivals get directed to fresh rooms because existing rooms aren't marked as having space. The building grows larger than its active population justifies, which is known as bloat.
+If this work falls behind, tenants' stuff left in rooms they departed from accumulates. New arrivals get directed to fresh rooms because existing rooms aren't marked as having space. The building grows larger than its active population justifies, which is known as bloat.
 
 Two things keep bloat sticky even when the housekeeper keeps pace with departures. The first is that emptying a room frees its space for reuse but doesn't shrink the building. The housekeeper consolidates the free space in a cleared room and tells the front desk the room is available, but the building keeps its footprint: an empty room in the middle of the building stays part of the building, and only when the rooms at the very end are all empty can the outer wall be pulled in. Reclaiming the building's actual footprint — not just freeing rooms for reuse — takes a rebuild (below).
 
@@ -37,7 +37,7 @@ The housekeeper also pulls stale cards from the filing cabinets — entries poin
 
 Every tenant arrives with a temporary registration number drawn from a campus-wide pool (`transaction ID`). The pool is finite — about four billion numbers on a circular counter (`32-bit XID space`). The numbers go up. After four billion, they wrap to zero. The system determines whether a registration is old or new by measuring the distance around the circle: anything less than two billion ahead is "in the future," anything behind is "in the past."
 
-The housekeeper stamps long-resident tenants as permanent (`freezing`): they replace their temporary registration number with a marker that means "old, always in the past, don't compare." That tenant is out of the numbering game. The stamp doesn't change anything about the tenant's belongings, their room, or who can visit them — it only changes the registration card, though writing and filing that card is itself work.
+A housekeeper stamps long-resident tenants as permanent (`freezing`): the housekeeper replaces the tenant's temporary registration number with a marker that means "old, always in the past, don't compare." That tenant is out of the numbering game. The stamp doesn't change anything about the tenant's belongings, their room, or who can visit them — it only changes the registration card, though writing and filing that card is itself work.
 
 The threshold for stamping is conservative. By default, a tenant must be at least fifty million registrations old (`vacuum_freeze_min_age`) before the housekeeper bothers — about 2.5% of the two-billion span before a registration would start reading as future-dated, so stamping begins long before that limit.
 
@@ -93,7 +93,7 @@ The standard dispatch. The housekeeper visits a building, walks room by room, do
 
 ### Aggressive
 
-Same housekeeper, different orders. When a building's oldest unstamped registration has aged past a threshold (`vacuum_freeze_table_age`), the head dispatches them specifically to advance the building's registration horizon, and they work differently. They ignore the settled flag: a room can be settled — no belongings left to clear — and still hold tenants who were never stamped, so they have to go in and check it. What they can still skip are rooms marked completed, where every tenant is already permanent. For every unstamped tenant they find, they write a fresh permanent card — real work and real paperwork, which is why a freeze pass is I/O-heavy.
+Same housekeeper, different orders. When a building's oldest unstamped registration has aged past a threshold (`vacuum_freeze_max_age`), the head dispatches them specifically to advance the building's registration horizon, and they work differently. They ignore the settled flag: a room can be settled — no belongings left to clear — and still hold tenants who were never stamped, so they have to go in and check it. What they can still skip are rooms marked completed, where every tenant is already permanent. For every unstamped tenant they find, they write a fresh permanent card — real work and real paperwork, which is why a freeze pass is I/O-heavy.
 
 On a well-maintained building where the completed flags are current, most rooms are skipped and the pass is cheap. On a building where the flags have gone stale, almost every room needs an actual visit and the pass is expensive.
 
