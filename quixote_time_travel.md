@@ -10,11 +10,11 @@ Then the mage king moved on to other projects, as mage kings do, and his apprent
 
 Forty years passed. The vacuum cleaner was still running under the same name, doing four unrelated jobs, and nobody who hadn't studied the history could tell you why it was called that.
 
-Yet the magic returned with a stranger appearing at Stonebraker's court with knowledge of the future and a problem caused by ancient names not fitting the time traveler's modern times anymore. 
+Yet the magic returned with a stranger appearing at Stonebraker's court bringing knowledge of the future, and presenting a problem caused by ancient names not fitting the traveler's contemporary times anymore. 
 
 ---
 
-The traveller materialized at the mage king's court on a skateboard wearing shorts, a t-shirt that said WYLD STALLYNS, and a lanyard with an ID badge that read TED, DBA — INFRASTRUCTURE. He rolled across the marble floor, dragged his back foot to a stop, kicked the board's tail to flip it up into his hand, and looked around.
+The traveller materialized  on a skateboard at the mage king's court, wearing a t-shirt that said WYLD STALLYNS, and a lanyard with an ID badge that read TED, DBA — INFRASTRUCTURE. He rolled across the marble floor, dragged his back foot to a stop, kicked the board's tail to flip it up into his hand, and looked around.
 
 "Whoa," he said.
 
@@ -176,9 +176,9 @@ The king was quiet for a while. Then he picked up a pen and crossed out VACUUM o
 
 Ted landed on his skateboard at the campus gates amidst a throng of students walking through towards the registration office, carrying boxes, in sunshine. When he'd left it had been raining and there had been a tent village. 
 
-Riding his board along tree lined campus paths, he passed building 7 in the physics district. Stopping to check the situation, he found a housekeeper inside, working room by room, unhurried. The status board in the lobby was almost entirely green. The researcher's office was empty and quiet — deadline met, paper submitted, session closed.
+Riding his board along tree-lined campus paths, he passed building 7 in the physics district. Stopping to check the situation, he found a housekeeper inside, working room by room, unhurried. The status board in the lobby was almost entirely green. The researcher's office was empty and quiet — deadline met, paper submitted, session closed.
 
-Don Alejandro on the restaurant patio just behond the campus gates was sitting across from Dulcinea laughing at something. Don Alejandro's shirt was clean. No grease. No screwdriver in his pocket. On the table between them, next to a half empty bottly of wine was a thick manual with a title Ted had never seen before:
+Don Alejandro on the restaurant patio behond the campus gates was sitting across from Dulcinea laughing at something. Don Alejandro's shirt was clean. No grease. No screwdriver in his pocket. On the table between them, next to a half-empty bottly of wine was a thick manual with a title Ted had never seen before:
 
 *Campus Housekeeping: A Guide to Room Turnover, Tenant Census, Registration Stamping, and Status Board Maintenance.*
 
