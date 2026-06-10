@@ -22,7 +22,7 @@ Those are the jobs. Keep them in view, because the phrases people reach for — 
 
 ## How the failures sort out
 
-Haas groups the ways this goes wrong into a short list — slow, stuck, spinning, skipping, starved — and it makes a good skeleton, because it is drawn from the failures that actually happen rather than from the way the machinery is built. Slow and stuck turn out to be one trouble seen from the user's side, a round that will not end, so there are four situations to tell apart. Two are things going wrong with a round already underway. Two are the head failing to send a round at all. Hold that second pair together from the start, because from the corridor they look identical while their causes are not the same.
+Haas groups the ways this goes wrong into a short list — slow, stuck, spinning, skipping, starved — and it makes a good skeleton, because it is drawn from the failures that actually happen rather than from the way the machinery is built. Slow and stuck turn out to be one trouble seen from the user's side, a round that will not end, so there are four situations to tell apart. Two are things going wrong with a round already underway. Two are the head failing to send a round at all.
 
 ## A round that drags on (slow, or stuck)
 
