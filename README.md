@@ -4,6 +4,6 @@ PostgreSQL's VACUUM is one command that does two unrelated things — reclaiming
 
 *quixote_time_travel.md* — the metaphor, as a story. A time-traveling DBA explains to Michael Stonebraker, the computer scientist behind the 1980s Berkeley POSTGRES research project that became PostgreSQL a decade on and had a since-removed time-travel feature, what the `VACUUM` command evolved into over forty years, and why it should have been called HOUSEKEEPING.
 
-*housekeeping_mapping.md* — the campus model mapped to the actual system: the three functions, the autovacuum dispatcher and workers, the failsafe vacuum, manual vacuum, rebuild operations, the failure modes, and the configuration parameters in campus terms.
+*housekeeping_mapping.md* — the campus model mapped to the actual system: the autovacuum dispatcher and workers, the failsafe vacuum, manual vacuum, rebuild operations, the failure modes, and the configuration parameters in campus terms.
 
 *housekeeping_haas_playbook.md* — operational troubleshooting in the campus model, organized around the ways autovacuum fails: slow or stuck, spinning without progress, skipped, and starved.
