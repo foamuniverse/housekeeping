@@ -103,7 +103,8 @@ The campus owner (`DBA`) can dispatch a housekeeper directly, bypassing the head
 
 ## The special crews
 
-There are two ways to rebuild a bloated building. Both end with a compact building; what differs is whether they close it to get there. That axis, locking versus online, decides whether a rebuild is something you schedule and announce or something you run against live traffic. It is also the axis the tool names hide — from PostgreSQL 19, inside a single command.
+When bloat has accumulated to a pain point, buildings want shrinking, ehich vam be done either conservatively, by locking it (taking downtime), or in a more complicated manner, keeping the building open, but inviting more interesting failure modes
+
 
 ### The closed-building crew (locking)
 
