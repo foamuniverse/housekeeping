@@ -71,6 +71,8 @@ A visitor asks: "Where can I find Armenian linguists?" The front desk checks the
 
 The census is conducted by a separate census taker (`ANALYZE` command). The census taker visits the building, samples a number of rooms, records the distributions, and updates the front desk's reference materials (`pg_statistic`).
 
+The head only picks the building. The worker, once there, decides what it needs: a cleaning round (which stamps as it goes, and may be triggered by registration age alone), a census, or both — each decision against its own thresholds (autovacuum_vacuum_* for the round, autovacuum_analyze_* for the census). One visit, separate triggers.
+
 ---
 
 ## Head of housekeeping
