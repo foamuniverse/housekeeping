@@ -69,13 +69,11 @@ The tenant census (`ANALYZE`) is a separate operation from the housekeeper's thr
 
 A visitor asks: "Where can I find Armenian linguists?" The front desk checks the census. If the census says Armenian linguists are clustered on floors three through five, the front desk sends the visitor there directly. If the census is stale — the Armenian linguists graduated last semester and the floors are now full of Malawian physicists — the front desk sends the visitor on a wasted trip.
 
-The census is conducted by a separate census taker (`ANALYZE` command). The census taker visits the building, samples a number of rooms, records the distributions, and updates the front desk's reference materials (`pg_statistic`). This can be requested explicitly by the campus owner.
-
-The muddling: when the head of housekeeping dispatches a worker to a building, the worker decides independently whether the building needs cleaning, a census, or both. The thresholds are separate — a building might need a census but not cleaning, or cleaning but not a census. But the same person does both, in the same visit, under the same dispatching system. The census rides along with the housekeeper when the head of housekeeping says so, but it's a distinct operation with its own trigger (`autovacuum_analyze_threshold`, `autovacuum_analyze_scale_factor`).
+The census is conducted by a separate census taker (`ANALYZE` command). The census taker visits the building, samples a number of rooms, records the distributions, and updates the front desk's reference materials (`pg_statistic`).
 
 ---
 
-## How the head of housekeeping works
+## Head of housekeeping
 
 The head of housekeeping (`autovacuum launcher`) runs continuously. They manage a pool of housekeepers — by default three (`autovacuum_max_workers`) — and dispatch them to buildings that need attention.
 
