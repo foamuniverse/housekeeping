@@ -19,7 +19,7 @@ Each building also has an attached warehouse (`TOAST table`) for tenants with ov
 
 ## What housekeeping does
 
-A housekeeper (`VACUUM`) visits a building and walks room by room. In each room, they do whatever combination of three jobs the room needs. (The fourth job — the census — is a separate function described below.)
+A housekeeper (`VACUUM`) visits a building and walks room by room. In each room, they do whatever combination of three jobs the room needs.
 
 ### Room turnover
 
