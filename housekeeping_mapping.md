@@ -105,7 +105,7 @@ The campus owner (`DBA`) can dispatch a housekeeper directly, bypassing the head
 
 ## The special crews
 
-When bloat has accumulated to a pain point, buildings want shrinking, ehich vam be done either conservatively, by locking it (taking downtime), or in a more complicated manner, keeping the building open, but inviting more interesting failure modes
+When bloat has accumulated to a pain point, buildings want shrinking which can be done either conservatively by locking it (taking downtime), or in a complex manner, keeping the building open, but inviting more interesting failure modes
 
 
 ### The closed-building crew (locking)
