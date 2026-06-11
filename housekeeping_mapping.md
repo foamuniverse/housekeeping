@@ -39,7 +39,7 @@ Every tenant arrives with a temporary registration number drawn from a campus-wi
 
 A housekeeper stamps long-resident tenants as permanent (`freezing`): the housekeeper replaces the tenant's temporary registration number with a marker that means "old, always in the past, don't compare." That tenant is out of the numbering game. The stamp doesn't change anything about the tenant's belongings, their room, or who can visit them — it only changes the registration card, though writing and filing that card is itself work.
 
-The threshold for stamping is conservative. By default, a tenant must be at least fifty million registrations old (`vacuum_freeze_min_age`) before the housekeeper bothers — about 2.5% of the two-billion span before a registration would start reading as future-dated, so stamping begins long before that limit.
+By default, a tenant must be at least fifty million registrations old (`vacuum_freeze_min_age`) before the housekeeper bothers — about 2.5% of the two-billion span before a registration would start reading as future-dated, so stamping begins long before that limit.
 
 Every building tracks its oldest unstamped registration number (`relfrozenxid`). Every district tracks its worst building. The campus tracks its worst district. One stuck building holds back the whole campus. If the campus-wide pool approaches exhaustion, the registration office stops issuing new numbers — no new arrivals, no room changes, no move-outs. Visitors can still walk through the gates and ask questions. The campus goes read-only until someone advances the stuck building's number.
 
