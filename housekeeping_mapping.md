@@ -43,7 +43,7 @@ By default, a tenant must be at least fifty million registrations old (`vacuum_f
 
 Every building tracks its oldest unstamped registration number (`relfrozenxid`). Every district tracks its worst building. The campus tracks its worst district. One stuck building holds back the whole campus. If the campus-wide pool approaches exhaustion, the registration office stops issuing new numbers — no new arrivals, no room changes, no move-outs. Visitors can still walk through the gates and ask questions. The campus goes read-only until someone advances the stuck building's number.
 
-This is the wraparound emergency. The registration office shuts down because the bookkeeping system that tracks who's current and who's departed is running out of space — the buildings and tenants are fine.
+This is the wraparound emergency. The registration office shuts down because the bookkeeping system that tracks who's current and who's departed is running out of space.
 
 ### Status board updates
 
@@ -51,7 +51,7 @@ Every building has a lobby status board (`visibility map`) with one entry per ro
 
 The first flag — settled (`all-visible`) — means all tenants in this room are accounted for, no departed tenants' belongings need clearing. The second flag — completed (`all-frozen`) — means all tenants in this room have been stamped permanent.
 
-The status board has two customers.
+The status board has two customers:
 
 The next housekeeper who visits can skip rooms marked settled. Nothing to do there. This makes subsequent visits faster: instead of walking every room, they check the board and visit only the rooms that need attention.
 
