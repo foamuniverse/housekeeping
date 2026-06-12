@@ -9,7 +9,7 @@
 
 ## The campus and its parts
 
-A campus (`cluster`) contains one or more districts (`databases`). Each district contains buildings (`tables`). Each building is divided into rooms (`8KB heap pages`). Each room holds tenants (`tuples` — row versions). Tenants' belongings are their data: the column values, the payload. The tenant is the metadata envelope: the registration number that created them, the one that ended their residency if they've departed, and the flags that say whether they've been stamped permanent.
+A campus (`cluster`) contains one or more districts (`databases`). Each district contains buildings (`tables`). Each building is divided into rooms (`8KB heap pages`). Each room holds tenants (`tuples` — row versions). The tenant is the metadata envelope: the registration number that created them, the one that ended their residency if they've departed, and the flags that say whether they've been stamped permanent. Tenants' belongings are their data: the column values, the payload. A departed tenant's registration card stays with their belongings until cleared.
 
 Each building has a records room with filing cabinets (`indexes`) that track where tenants are. The front desk (`query planner`) consults the filing cabinets and the building's lobby status board to decide the fastest way to answer a visitor's question, then sends a runner (`executor`) to carry that route out. The filing cabinets know which rooms tenants are in; the status board knows which rooms are clean. Deciding the route and walking it are separate steps.
 
