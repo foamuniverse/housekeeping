@@ -98,7 +98,7 @@ Stonebraker was quiet for a moment. "That's a consequence of the thirty-two-bit 
 
 ---
 
-"So now you've got the four jobs," said Ted. "Room turnover, tenant census, registration stamping, status board. One housekeeper, one visit, all four. Efficient. But—"
+"So now you've got the four jobs," said Ted. "Room turnover, tenant census, registration stamping, status board maintenance. One housekeeper, one visit, all four. Efficient. But—"
 
 "But they're unrelated."
 
