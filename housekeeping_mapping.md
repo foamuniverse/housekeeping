@@ -105,7 +105,9 @@ The campus owner (`DBA`) can dispatch a housekeeper directly, bypassing the head
 
 ## The special crews
 
-When bloat has accumulated to a pain point, buildings want shrinking which can be done either conservatively by locking it (taking downtime), or in a complex manner, keeping the building open, but inviting more interesting failure modes
+ON `VACUUM FULL`: Since this document is about vacuum, it still wants a mention at this time although the command is getting renamed in the upcoming version 19. 
+
+When a building has grown far enough beyond its tenant's requirments, it becomes troublesome because vistors take longer to travel along empty corridors to reach the tenants they came for, or the building encroaches on neighboring buildings and the district's allotment becomes constrained, buildings want shrinking which can be done either conservatively by locking it (taking downtime), or in a more complex manner, keeping the building open.
 
 
 ### The closed-building crew (locking)
@@ -116,15 +118,11 @@ The closed-building crew takes an exclusive lock. Nobody gets in or out. It buil
 
 ### The open-building crew (online)
 
-A different crew builds the new building on the adjacent lot while the old one stays open. A relay intercepts every change in the old building and replicates it to the new one in real time; the new building gets its own filing cabinets and status board from scratch. When it has caught up, the crew swaps the address plates and the old building comes down. For tenants and visitors the only disruption is a brief lockout at the instant of the swap.
+A different crew builds the new building on the adjacent lot while the old one stays open. The crew taps the campus message wire — the stream of all changes campus-wide — and filters it for changes to that one building, replaying them into the new copy as they arrive; the new building gets its own filing cabinets and status board from scratch. When it has caught up, the crew swaps the address plates and the old building comes down. For tenants and visitors the only disruption is a brief lockout at the instant of the swap. 
 
-In PostgreSQL 18 and earlier this is `pg_repack` or `pg_squeeze` — extensions, not core; the online rebuild of a *table* lives outside core. From 19 the crew is in core: `REPACK CONCURRENTLY`, built on `pg_squeeze`'s method — logical decoding as the relay — by Antonín Houska, `pg_squeeze`'s author.
+In PostgreSQL 18 and earlier this is `pg_repack` or `pg_squeeze` — extensions, not core; the online rebuild of a *table* lives outside core. From 19 the crew is in core: `REPACK CONCURRENTLY`, built on `pg_squeeze`'s.
 
-The price of staying open: two buildings run at once, so space roughly doubles. The swap needs a moment of exclusive access; if a visitor at the front desk won't leave, it waits, and if it waits too long the crew gives up and retries. A risk is to have the crew killed mid-operation — power loss, crash, abort: the original building survives and no tenants are harmed, but the relay would still be wired into its front desk adding overhead to every change, and the half-built replacement sitting on the lot consuming space until cleared. And the relay has a standing cost the closed crew doesn't — the variants that capture changes through logical decoding (`pg_squeeze`, and from 19 `REPACK CONCURRENTLY`) hold a replication slot for the whole rebuild, which pins the campus registration horizon for as long as the job runs. The first in-core release carries its own sharp edges, stated in its own commit notes: only one `REPACK CONCURRENTLY` may run campus-wide at a time, the final swap can lose a deadlock against traffic and abort, and a crew killed mid-job can orphan its slot — the horizon stays pinned until someone notices and clears it by hand.
-
-### The filing cabinets got there first
-
-One part of "rebuild" was solved online, in core, years before the other: the cabinets themselves. `REINDEX CONCURRENTLY` builds a fresh cabinet beside the old one and swaps it in under a lock that blocks neither reads nor writes — the machinery of `CREATE INDEX CONCURRENTLY` — then drops the bloated original. Compacting a *cabinet* has needed no extension and no window since PostgreSQL 12; rebuilding the *building* needs one or the other through 18. Keep the two apart, because "bloat" collapses them and their remedies arrived years apart: the cabinets got their in-core online command first, and the building only catches up in 19.
+The price of staying open: two buildings run at once, so space roughly doubles, and the crew holds a replication slot that pins the campus registration horizon for the whole rebuild. If the final swap loses a deadlock against traffic, the entire job is wasted effort.
 
 ---
 
@@ -166,7 +164,7 @@ The head is dispatching correctly but the pool is too small or the work-rate bud
 
 Historically, the head's dispatch board tracked departed tenants as the signal for cleaning urgency. Buildings with very few departures — high arrival rate, not much turnover — looked idle on the board even when their stamping pressure was mounting. A building full of new arrivals who all needed registration stamping produced no departed tenants, which meant the head never dispatched a housekeeper, which meant registrations piled up silently.
 
-This was fixed in PostgreSQL 13, which added arrival-rate signals to the dispatch board (`autovacuum_vacuum_insert_threshold`, `autovacuum_vacuum_insert_scale_factor`). Before 13, insert-heavy buildings were invisible to the head of housekeeping.
+This was fixed in PostgreSQL 13, which taught the head to count new arrivals (`n_ins_since_vacuum` in `pg_stat_all_tables`), not just departures. The thresholds for when arrivals alone trigger a dispatch are `autovacuum_vacuum_insert_threshold` and `autovacuum_vacuum_insert_scale_factor`.
 
 ---
 
