@@ -99,7 +99,7 @@ On a well-maintained building where the completed flags are current, most rooms 
 
 ### Manual
 
-The campus owner (`DBA`) can dispatch a housekeeper directly, bypassing the head's normal scheduling. Same housekeeper, same skills, different chain of command. Used for maintenance windows, investigation, or catching up after a deferred period.
+The campus administrator can dispatch a housekeeper directly, bypassing the head's normal scheduling. Same housekeeper, same skills, different chain of command. Used for maintenance windows, investigation, or catching up after a deferred period.
 
 ---
 
@@ -154,7 +154,7 @@ Fix: find the researcher and get them to finish — or cancel their work. In Pos
 
 ### Head of housekeeping sent home
 
-The campus owner has dismissed the head (`autovacuum = off`). No dispatching happens. The housekeeper pool sits idle. Pressure accumulates on all jobs silently across every building. Usually a configuration mistake. Note: even with the head dismissed, the campus will still trigger emergency housekeeping if a building approaches the wraparound deadline.
+The campus administrator has dismissed the head (`autovacuum = off`). No dispatching happens. The housekeeper pool sits idle. Pressure accumulates on all jobs silently across every building. Usually a configuration mistake. Note: even with the head dismissed, the campus will still trigger emergency housekeeping if a building approaches the wraparound deadline.
 
 ### Pool too small
 
