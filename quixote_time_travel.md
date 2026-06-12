@@ -62,7 +62,7 @@ Now here's the thing your majesty built into the system and which is still total
 
 Ted sat on the edge of the mage king's table, skateboard across his knees.
 
-"OK so the head of housekeeping manages a pool of them — like three by default — and she dispatches them to whichever building needs the most attention. So a housekeeper shows up at a building, and they don't just clear rooms anymore. They do four things.
+"OK so the head of housekeeping manages a pool of them — like three by default — and she dispatches them to whichever district needs the most attention. So a housekeeper shows up at a building, and they don't just clear rooms anymore. They do four things.
 
 "First: room turnover. That's the original gig. Clear out belongings left by departed tenants, update the building's free-space registry so the front desk knows where to put new arrivals. This is the job you built the vacuum cleaner for. Still the one most people think of when they hear the name.
 
