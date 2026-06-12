@@ -79,7 +79,7 @@ The head only picks the building. The worker, once there, decides what it needs:
 
 The head of housekeeping (`autovacuum launcher`) runs continuously. They manage a pool of housekeepers — by default three (`autovacuum_max_workers`) — and dispatch them to buildings that need attention.
 
-They maintain their own status board (`pg_stat_user_tables`, autovacuum's internal work queue), tracking across every district and every building: how many departed tenants have accumulated, how old the oldest unstamped registration is, when each building was last visited. When a housekeeper becomes available, the head sends them into the district that needs attention most — by accumulated pressure, and above all by how close any building there is to its registration deadline. Once inside, the housekeeper works through every building in that district that needs attention.
+They maintain their own ledger (`pg_stat_user_tables`, autovacuum's internal work queue), tracking across every district and every building: how many departed tenants have accumulated, how old the oldest unstamped registration is, when each building was last visited. When a housekeeper becomes available, the head sends them into the district that needs attention most — by accumulated pressure, and above all by how close any building there is to its registration deadline. Once inside, the housekeeper works through every building in that district that needs attention.
 
 The pool size is configurable. Adding more housekeepers helps until the campus's shared infrastructure — loading docks, supply lines, corridor capacity (`shared I/O bandwidth, CPU, buffer pool`) — becomes the bottleneck. The housekeepers share a collective work-rate budget (`autovacuum_vacuum_cost_limit`). Adding housekeepers without raising the budget means each one works proportionally slower. Doubling the workers without doubling the budget gives you twice as many housekeepers each working at half speed: the same total throughput spread thinner.
 
@@ -160,7 +160,7 @@ The campus owner has dismissed the head (`autovacuum = off`). No dispatching hap
 
 The head is dispatching correctly but the pool is too small or the work-rate budget is too low. Buildings queue up waiting for a housekeeper. Some buildings go a long time between visits. The head's status board shows the backlog but can't resolve it without more resources.
 
-### Status board doesn't reflect actual pressure
+### Ledger doesn't reflect actual pressure
 
 Historically, the head's dispatch board tracked departed tenants as the signal for cleaning urgency. Buildings with very few departures — high arrival rate, not much turnover — looked idle on the board even when their stamping pressure was mounting. A building full of new arrivals who all needed registration stamping produced no departed tenants, which meant the head never dispatched a housekeeper, which meant registrations piled up silently.
 
