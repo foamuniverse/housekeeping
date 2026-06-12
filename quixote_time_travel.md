@@ -6,7 +6,7 @@ Not the parlour trick of prophecy nor the crude rewinding favoured by middle man
 
 A daemon named the vacuum cleaner swept the oldest sediment off expensive storage onto archival media. The name fit. The job was cleaning up after time travel.
 
-Then the mage king moved on to other projects, as mage kings do, and his apprentices removed the time travel magic. They kept the storage architecture because the same no-overwrite property that made time travel possible also made concurrent access work, letting multiple scholars read consistent views of the same records without blocking each other. The vacuum cleaner stayed too, growing with extra responsibilities like a djinn ballooning from a bottle.
+Then the mage king moved on to other projects, as mage kings do, and his apprentices removed the time travel magic. They kept the storage architecture because the same no-overwrite property that made time travel possible also made concurrent access work, letting multiple scholars read consistent views of the same records without blocking each other. The vacuum cleaner stayed too, growing with responsibilities like a djinn ballooning from a bottle.
 
 Forty years on, the removed magic stirred one last time with a stranger arriving at the mage king's court.
 
@@ -102,7 +102,7 @@ Stonebraker was quiet for a moment. "That's a consequence of the thirty-two-bit 
 
 "But they're unrelated."
 
-"Completely unrelated! Different triggers, different failure modes, different stakes. And three of them are called VACUUM. The census is actually a separate command — ANALYZE — that also gets run by the same daemon, which means the housekeeper sometimes takes a census and sometimes doesn't depending on what the head told them to do. Four jobs, two command names, one daemon. Naming made total sense when you built it—" Ted gestured around the court. "When the vacuum cleaner cleaned and that was it. But dude, imagine calling a person who cleans rooms, takes a census, stamps registrations, AND maintains a status board a 'vacuum cleaner.' You'd think they only cleaned."
+"Completely unrelated! Different triggers, different failure modes, different stakes. And three of them are called VACUUM. The census is actually a separate command — ANALYZE — that also gets run by the same daemon, which means the housekeeper sometimes takes a census and sometimes doesn't depending on what standing orders say about what to do. Four jobs, two command names, one daemon. Naming made total sense when you built it—" Ted gestured around the court. "When the vacuum cleaner cleaned and that was it. But dude, imagine calling a person who cleans rooms, takes a census, stamps registrations, AND maintains a status board a 'vacuum cleaner.' You'd think they only cleaned."
 
 "What would you call it?"
 
