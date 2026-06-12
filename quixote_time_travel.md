@@ -8,7 +8,7 @@ A daemon named the vacuum cleaner swept the oldest sediment off expensive storag
 
 Then the mage king moved on to other projects, as mage kings do, and his apprentices removed the time travel magic. They kept the storage architecture because the same no-overwrite property that made time travel possible also made concurrent access work, letting multiple scholars read consistent views of the same records without blocking each other. The vacuum cleaner stayed as well, but it came to take on extra responsibilities.
 
-Forty years on, the removed magic stirred one last time, and a stranger arrived at the mage king's court.
+Forty years on, the removed magic stirred one last time with a stranger arriving at the mage king's court.
 
 ---
 
