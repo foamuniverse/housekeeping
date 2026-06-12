@@ -158,11 +158,11 @@ The campus owner has dismissed the head (`autovacuum = off`). No dispatching hap
 
 ### Pool too small
 
-The head is dispatching correctly but the pool is too small or the work-rate budget is too low. Buildings queue up waiting for a housekeeper. Some buildings go a long time between visits. The head's status board shows the backlog but can't resolve it without more resources.
+The head is dispatching correctly but the pool is too small or the work-rate budget is too low. Buildings queue up waiting for a housekeeper. Some buildings go a long time between visits. The head's ledger shows the backlog but can't resolve it without more resources.
 
 ### Ledger doesn't reflect actual pressure
 
-Historically, the head's dispatch board tracked departed tenants as the signal for cleaning urgency. Buildings with very few departures — high arrival rate, not much turnover — looked idle on the board even when their stamping pressure was mounting. A building full of new arrivals who all needed registration stamping produced no departed tenants, which meant the head never dispatched a housekeeper, which meant registrations piled up silently.
+Historically, the head's ledger tracked departed tenants as the signal for cleaning urgency. Buildings with very few departures — high arrival rate, not much turnover — looked idle in the ledger even when their stamping pressure was mounting. A building full of new arrivals who all needed registration stamping produced no departed tenants, which meant the head never dispatched a housekeeper, which meant registrations piled up silently.
 
 This was fixed in PostgreSQL 13, which taught the head to count new arrivals (`n_ins_since_vacuum` in `pg_stat_all_tables`), not just departures. The thresholds for when arrivals alone trigger a dispatch are `autovacuum_vacuum_insert_threshold` and `autovacuum_vacuum_insert_scale_factor`.
 
