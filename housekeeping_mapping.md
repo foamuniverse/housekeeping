@@ -151,7 +151,7 @@ This was fixed in PostgreSQL 13, which taught the head to count new arrivals (`n
 
 ## The configuration knobs in campus terms
 
-The knobs that control housekeeping live in the campus standing orders (postgresql.conf), many overridable for a single building (per-table storage parameters), and divide into a few groups.
+The knobs that control housekeeping live in the campus standing orders (postgresql.conf), most of them overridable for a single building (per-table storage parameters), and divide into a few groups.
 
 **How often to clean:** how many departed tenants accumulate before the head dispatches a housekeeper (`autovacuum_vacuum_threshold` + `autovacuum_vacuum_scale_factor`). A building with 10,000 tenants and a scale factor of 0.2 triggers cleaning after 2,000 departures. For large buildings, 20% is too high — cleaning is triggered too late and bloat accumulates. Reducing the scale factor or the fixed threshold makes the head more aggressive about dispatching.
 
