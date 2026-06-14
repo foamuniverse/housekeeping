@@ -8,7 +8,7 @@ The word "vacuum" at face value suggests a cleaner at work, and clearing out stu
 
 ## What a housekeeping round does
 
-A housekeeper — one of the autovacuum workers — is sent by the head of housekeeping (`autovacuum launcher`) into a building and walks it room by room. In each room there are up to four jobs to be done, or depending on how you count, three plus one, since board updates are arguably side effects of two of them.
+A housekeeper — one of the autovacuum workers — is sent by the head of housekeeping (`autovacuum launcher`) into a building and walks it room by room. In each room there are up to three jobs to be done; the fourth, the census, belongs to the building as a whole rather than to any room.
 
 **Clearing.** When a tenant leaves the campus or moves to another room, what they leave behind does not simply vanish: their belongings sit in the old room until someone carries them out, which is the housekeeper's job. The task also involves marking which rooms now have space to spare on the register so that arriving tenants can be shown straight to them. This is the job the word "vacuum" names, and the one everyone pictures. When it falls behind, the building fills with the possessions of people long gone, which is known as bloat: because no one has recorded where the space is, new arrivals are sent off to fresh rooms instead of the empty ones, and the building grows larger than justified by the space occupied by its tenants and their aggregate belongings.
 
