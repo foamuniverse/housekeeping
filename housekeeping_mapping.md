@@ -27,11 +27,11 @@ When tenants leave campus (`DELETE`) or get assigned to new rooms (`UPDATE` — 
 
 If this work falls behind, tenants' stuff left in rooms they departed from accumulates. New arrivals get directed to fresh rooms because existing rooms aren't marked as having space. The building grows larger than its active population justifies, which is known as bloat.
 
-Two things keep bloat sticky even when the housekeeper keeps pace with departures. The first is that emptying a room frees its space for reuse but doesn't shrink the building. The housekeeper consolidates the free space in a cleared room and tells the front desk the room is available, but the building keeps its footprint: an empty room in the middle of the building stays part of the building, and only when the rooms at the very end are all empty can the outer wall be pulled in. Reclaiming the building's actual footprint — not just freeing rooms for reuse — takes a rebuild (below).
+Two things keep bloat sticky even when the housekeeper keeps pace with departures. The first is that emptying a room frees its space for reuse but doesn't shrink the building. The housekeeper consolidates the free space in a cleared room and tells the front desk the room is available, but the building keeps its footprint: an empty room in the middle of the building stays part of the building, and only when the rooms at the very end are all empty can the outer wall be pulled in.
 
 The second is that placement is per room. A new arrival goes into a room only if that room has enough free space for their setup, and setups vary in size. The space freed inside any one room is contiguous, but it's scattered across many rooms in small amounts, so an arrival who needs more than any single room currently offers gets a fresh room opened for them — even though the building-wide total would easily have covered it. On this alone a building can keep growing, even with diligent turnover.
 
-The housekeeper also pulls stale cards from the filing cabinets — entries pointing to rooms where the tenant they reference has already departed. The filing cabinet's physical structure (drawer splits, half-empty folders) doesn't get compacted by this; compacting the cabinet itself is a separate job, one the special crews handle (below).
+The housekeeper also pulls stale cards from the filing cabinets — entries pointing to rooms where the tenant they reference has already departed.
 
 ### Registration stamping
 
@@ -103,7 +103,7 @@ The campus administrator can dispatch a housekeeper directly, bypassing the head
 
 ### Special: Out of Scope
 
-There is an additional command also having vacuum in its name, `VACUUM FULL`, which isn't run by the autovacuum daemon nor does it perform any dead row removal, visibility map updates or tuple freezing. It does something else entirely, rewriting the whole table from scratch which then implicitly results in zero dead rows, all frozen tuples, fresh indexes. This additional layer of confusion will be thankfully removed in the upcoming major version 19 by renaming the command to `REPACK` (which incidentally invites fresh confusion because there exists a very popular extension, `pg_repack` which does something very similar). We don't include this with the metaphor except by saying you could perhaps call the command a special rebuild crew.
+There is an additional command also having vacuum in its name, `VACUUM FULL`, which isn't run by the autovacuum daemon nor does it perform any dead row removal, visibility map updates or tuple freezing. It does something else entirely, rewriting the whole table from scratch which then implicitly results in zero dead rows, all frozen tuples, fresh indexes. This additional layer of confusion will be thankfully removed in the upcoming major version 19 by renaming the command to `REPACK` (which perhaps not entirely intentionally invites fresh confusion because there exists a very popular extension, `pg_repack`, which does the same but differently). We don't include this with the metaphor except by saying you could perhaps call the command a special rebuild crew.
 
 ---
 
@@ -121,7 +121,7 @@ The compliance officer arriving means the situation got away from routine mainte
 
 ### Freshman season
 
-Thousands of new tenants arriving. Corridors packed. The housekeeper is present but throttled — they work slowly on purpose so they don't make the congestion worse. The building accumulates departed tenants' belongings faster than the housekeeper can clear them. Bloat grows. If it persists, the housekeeper never catches up and the building needs a rebuild crew.
+Thousands of new tenants arriving. Corridors packed. The housekeeper is present but throttled — they work slowly on purpose so they don't make the congestion worse. The building accumulates departed tenants' belongings faster than the housekeeper can clear them. Bloat grows.
 
 Fix: raise the housekeeper's work-rate limit (`autovacuum_vacuum_cost_limit`) or add more housekeepers. Both have the same constraint — the campus's shared infrastructure sets a ceiling on total housekeeping throughput.
 
