@@ -101,28 +101,9 @@ On a well-maintained building where the completed flags are current, most rooms 
 
 The campus administrator can dispatch a housekeeper directly, bypassing the head's normal scheduling. Same housekeeper, same skills, different chain of command. Used for maintenance windows, investigation, or catching up after a deferred period.
 
----
+### Special: Out of Scope
 
-## The special crews
-
-ON `VACUUM FULL`: Since this document is about vacuum, it still wants a mention at this time although the command is getting renamed in the upcoming version 19. 
-
-When a building has grown far enough beyond its tenant's requirments, it becomes troublesome because vistors take longer to travel along empty corridors to reach the tenants they came for, or the building encroaches on neighboring buildings and the district's allotment becomes constrained, buildings want shrinking which can be done either conservatively by locking it (taking downtime), or in a more complex manner, keeping the building open.
-
-
-### The closed-building crew (locking)
-
-If a building has accumulated severe bloat — empty rooms, scattered tenants, far more space than the resident count justifies — routine housekeeping can't fix it. The housekeeper reclaims space within rooms but can't compact the building; for that the structure has to come down and go back up compact.
-
-The closed-building crew takes an exclusive lock. Nobody gets in or out. It builds a new compact building with the same tenants, fresh filing cabinets, a clean status board, and reopens at the correct size. It removes the bloat completely, in exchange for a full lockout while it runs. In PostgreSQL this is `VACUUM FULL` and its near-twin `CLUSTER` (the same rewrite, tenants written in a chosen order). From PostgreSQL 19 an in-core command, `REPACK`, folds the two under one name (the old spellings remain). Bare `REPACK` locks exactly as they do — and that is the trap, because for about fifteen years "repack" has meant the *online* extension. The word now names a command whose *default* is the closed-building rewrite, with the open-building mode behind an option (next section). Someone who reaches for `REPACK` expecting `pg_repack`'s manners shuts the building.
-
-### The open-building crew (online)
-
-A different crew builds the new building on the adjacent lot while the old one stays open. The crew taps the campus message wire — the stream of all changes campus-wide — and filters it for changes to that one building, replaying them into the new copy as they arrive; the new building gets its own filing cabinets and status board from scratch. When it has caught up, the crew swaps the address plates and the old building comes down. For tenants and visitors the only disruption is a brief lockout at the instant of the swap. 
-
-In PostgreSQL 18 and earlier this is `pg_repack` or `pg_squeeze` — extensions, not core; the online rebuild of a *table* lives outside core. From 19 the crew is in core: `REPACK CONCURRENTLY`, built on `pg_squeeze`'s.
-
-The price of staying open: two buildings run at once, so space roughly doubles, and the crew holds a replication slot that pins the campus registration horizon for the whole rebuild. If the final swap loses a deadlock against traffic, the entire job is wasted effort.
+There is an additional command also having vacuum in its name, `VACUUM FULL`, which isn't run by the autovacuum daemon nor does it perform any dead row removal, visibility map updates or tuple freezing. It does something else entirely, rewriting the whole table from scratch which then implicitly results in zero dead rows, all frozen tuples, fresh indexes. This additional layer of confusion will be thankfully removed in the upcoming major version 19 by renaming the command to `REPACK` (which incidentally invites fresh confusion because there exists a very popular extension, `pg_repack` which does something very similar). We don't include this with the metaphor except by saying you could perhaps call the command a special rebuild crew.
 
 ---
 
