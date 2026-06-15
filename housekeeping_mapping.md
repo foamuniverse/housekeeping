@@ -103,7 +103,7 @@ The campus administrator can dispatch a housekeeper directly, bypassing the head
 
 ### Special: Out of Scope
 
-There is an additional command also having vacuum in its name, `VACUUM FULL`, which isn't run by the autovacuum daemon nor does it perform any incremental dead row removal, visibility map updates or tuple freezing. It does something else entirely, rewriting the whole table from scratch which then implicitly results in zero dead rows, all frozen tuples, fresh indexes. This additional layer of confusion will be thankfully removed in the upcoming major version 19 by renaming the command to `REPACK` (which perhaps not entirely intentionally invites fresh confusion because there exists a very popular extension, `pg_repack`, which does the same but differently).
+There is an additional command also having vacuum in its name, `VACUUM FULL`, which isn't run by the autovacuum daemon nor does it perform any incremental dead row removal, visibility map updates or tuple freezing. It does something else entirely: rewriting the whole table from scratch which then implicitly results in zero dead rows, all frozen tuples, fresh indexes. This additional layer of confusion will be thankfully removed in the upcoming major version 19 by renaming the command to `REPACK` (which invites fresh confusion again, against a tradeoff of leveraging established terminology with a very popular extension, `pg_repack` doing the same but differently).
 
 ---
 
