@@ -1,5 +1,6 @@
 # TODO
 
+`special_demolition_crews.md` — explain about `VACUUM FULL` and soon-to-be historical extensions with the release of version 19 including  `REPACK` in campus terms: bloat is out of control, normal vacuum can't fix it, call in the special construction/demolition crews that erect a whole new building next to the bloated one, then take the old one down.
 
 `housekeeping_vs_undo.md` — why in-place version retention beats undo-log reconstruction in specific failure modes like rollback, crash recovery, snapshot longevity, in campus vocabulary. The rival mechanism keeps a circular ledger and reconstructs any past state by reading it backward; describe its day-to-day advantages fairly, then let the failure modes speak. Deadpan; don't name Oracle, don't editorialize.
 
