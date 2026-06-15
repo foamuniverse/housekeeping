@@ -12,3 +12,5 @@ The idea grew out of years of explaining (auto)vacuum to stakeholders of varying
 
 Note on audience/reception: The metaphorical machinery to recast `VACUUM` as HOUSEKEEPING is heavy, and performing the mental remap isn't free. People fluent in PostgreSQL internals have built the structure the campus vocabulary scaffolds; to them it will read as irritating or frivolous, and advice to novices — "you have to learn the real terms anyway" — is correct. That's why every campus term is introduced with the real term beside it, and the playbook names the real parameters and system views throughout: the campus layer carries the relationships the real terms fail to convey.
 
+PS How to say this without unmasking as an inveterate culturai snob? Yet the silly quixote narrative doesn't really hit unless you grok that it merges three famous stories: Cervantes' Don Quixote, Mark Twain's A Yankee from Connecticut ar King Arthur's Court, and the movie Bill & Ted's Excellent Adventures.
+
