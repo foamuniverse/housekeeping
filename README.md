@@ -1,4 +1,4 @@
-*There's only two hard problems in computer science: Cache invalidation, naming things, and off-by-one errors.*
+*There are only two hard problems in computer science: Cache invalidation, naming things, and off-by-one errors.*
 
 —Martin Fowler popularizing Leon Bambrick's riff on Phil Karlton's famous quote
 
