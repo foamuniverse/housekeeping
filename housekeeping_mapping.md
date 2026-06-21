@@ -16,6 +16,22 @@ Each building has a records room with filing cabinets (`indexes`) that track whe
 Each building also has an attached warehouse (`TOAST table`) for tenants with oversized belongings. Those tenants live in a normal room but keep a claim ticket (`TOAST pointer`) pointing to the warehouse. The warehouse needs its own housekeeping too, normally carried out alongside the building's.
 
 ---
+## The ticket dispenser
+
+There is a ticket dispenser at each district gate. Everyone entering the district — visitors asking questions and movers placing or removing tenants — pulls a ticket. The tickets are numbered sequentially from a single campus-wide counter. A visitor or mover holds their ticket until they leave and hand it back.
+When a mover places a tenant in a room, they write their own ticket number on the tenant's registration card in the check-in field (xmin). When a different mover later clears a tenant out or reassigns them to another room, that mover writes their ticket number in the check-out field (xmax). The tenant's belongings stay in the old room. The card now has two numbers: one saying when the tenant arrived in the sequence, one saying when they left.
+The belongings are still in the room, but the housekeeper cannot just walk in and clear them. She has to check who is still sitting at the district food court. If a visitor is sitting there holding ticket 500, and the check-out field on the card says 600, that visitor entered the district before the tenant left. From where that visitor sits in the sequence, the tenant was still there when they walked in. Clearing those belongings would break whatever that visitor came to find out. The housekeeper leaves the room untouched until that visitor finishes and hands back their ticket.
+The oldest ticket still held by anyone at the district food court — visitor or mover — is the district's horizon (OldestXmin). The housekeeper reads the check-out field on each card and compares it to the horizon. Below the horizon: everyone who was in the district when this tenant left has since handed back their ticket. She clears the room. At or above the horizon: someone might still need to see those belongings. She moves on.
+One idle visitor is enough. Someone who pulled ticket 500, got their answer, and sat down at the food court to read a newspaper — an application that opened a transaction and never committed — keeps the horizon pinned at 500 while the dispenser climbs past 50,000. Every room checked out after 500 is unclearable across the entire district. Not because those rooms have anything to do with that visitor's question, but because the housekeeper cannot know which rooms the visitor might still consult.
+
+## The auditor
+
+Some campus's are legally required to keep a duplicate of every registration card filed at an offsite auditor's office (replication). The auditor receives copies in sequence and processes them in order, always somewhat behind. They leave a standing note at the main campus gate — not at any district gate, but at the central entrance: "I have reviewed up to card 3,000."
+That note pins the horizon campus-wide. A housekeeper in any district, in any building, cannot clear belongings whose check-out ticket is above 3,000 — because the auditor hasn't processed them yet, and the duplicate records must remain reconstructable until they have.
+If the auditor goes silent — office closed, lost their lease, abandoned their obligations — the note stays at the gate. The campus accumulates unclearable belongings from card 3,000 forward, in every district, indefinitely, for a consumer who is never coming back. The note must be pulled manually before the horizon can advance.
+If the campus's own records are destroyed — fire, flood, administrative catastrophe — the auditor's duplicate cards are the legally valid backup from which the campus can be reconstructed. This is why the requirement exists.
+Prepared transactions (PREPARE TRANSACTION) work similarly: paperwork left at the central registrar's desk, neither confirmed nor cancelled. The registrar set aside resources and is waiting for a signature one way or the other. Until it comes, that paperwork holds its ticket number open at the main gate — not at any district gate — pinning the horizon campus-wide for all districts.
+
 
 ## What housekeeping does
 
