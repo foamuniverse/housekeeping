@@ -26,7 +26,7 @@ One idle visitor is enough. Someone who pulled ticket 500, got their answer, and
 
 ## The auditor
 
-Some campus's are legally required to keep a duplicate of every registration card filed at an offsite auditor's office (replication). The auditor receives copies in sequence and processes them in order, always somewhat behind. They leave a standing note at the main campus gate — not at any district gate, but at the central entrance: "I have reviewed up to card 3,000."
+Some campuses are legally required to keep a duplicate of every registration card filed at an offsite auditor's office (replication). The auditor receives copies in sequence and processes them in order, always somewhat behind. They leave a standing note at the main campus gate — not at any district gate, but at the central entrance: "I have reviewed up to card 3,000."
 That note pins the horizon campus-wide. A housekeeper in any district, in any building, cannot clear belongings whose check-out ticket is above 3,000 — because the auditor hasn't processed them yet, and the duplicate records must remain reconstructable until they have.
 If the auditor goes silent — office closed, lost their lease, abandoned their obligations — the note stays at the gate. The campus accumulates unclearable belongings from card 3,000 forward, in every district, indefinitely, for a consumer who is never coming back. The note must be pulled manually before the horizon can advance.
 If the campus's own records are destroyed — fire, flood, administrative catastrophe — the auditor's duplicate cards are the legally valid backup from which the campus can be reconstructed. This is why the requirement exists.
