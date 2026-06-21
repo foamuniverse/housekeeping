@@ -5,7 +5,7 @@
 
 # Cache Invalidation, Naming, Off-by-One Errors and PostgreSQL's VACUUM
 
-Databases are all about shuffling data across a speed hierarchy: CPU caches to main memory to heap to write-ahead-logging to archive and all the way back — `VACUUM` in Michael Stonebraker's original 1980s Berkeley Postgres research prototype conception a pure instance of the tail end of that hierarchy: the no-overwrite storage model as an endless persistence cache, with a metaphorical vacuum cleaner sweeping obsoleted rows from expensive live onto in principle unlimited cheap archival storage.
+Databases are all about shuffling data across a speed hierarchy: CPU caches to main memory to heap to write-ahead-logging to archive and all the way back — `VACUUM` in Michael Stonebraker's original 1980s Berkeley Postgres research prototype conception a pure instance of the tail end of that hierarchy: the no-overwrite storage model as an endless persistence cache, with a metaphorical vacuum cleaner sweeping obsoleted rows from expensive live onto archival storage.
 
 The improbably convergent historical twist dovetailing precisely onto Karlton and Bambrick, is then how an originally intutively named command suggesting cleanup drifted over the next four decades to become the perfect illustration of the difficulty of cache invalidation, naming and counting things in computing: First transaction ID freezing layered onto space reclaiming, then visibility map maintenance shared between both functions and `ANALYZE` added to a daemon which performs the first, second, third, and then another, all of which got named after the first. Do we count it as two, three, or four functions misleadingly lumped under a vacuum cleaner metaphor?
 
