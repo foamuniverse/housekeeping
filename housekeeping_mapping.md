@@ -9,7 +9,9 @@
 
 ## The campus and its parts
 
-A campus (`cluster`) contains one or more districts (`databases`). Each district contains buildings (`tables`). Each building is divided into rooms (`8KB heap pages`). Each room holds tenants (`tuples` — row versions). The tenant is the metadata envelope: the registration number that created them, the one that ended their residency if they've departed, and the flags that say whether they've been stamped permanent. Tenants' belongings are their data: the column values, the payload. A departed tenant's registration card stays with their belongings until cleared.
+A campus (`cluster`) contains one or more districts (`databases`). Each district contains buildings (`tables`). Each building is divided into rooms (`8KB heap pages`). Each room holds tenants (`tuples` — row versions) and their belongings (the column values, the data payload).
+
+Every room has a door plate visible from the corridor. The plate lists each tenant inside, one line per tenant, showing their check-in number, their check-out number if they've departed, and whether they've been stamped permanent. The housekeeper reads the plate from the corridor to decide what needs doing in the room.
 
 Each building has a records room with filing cabinets (`indexes`) that track where tenants are. The front desk (`query planner`) consults the filing cabinets and the building's lobby status board to decide the fastest way to answer a visitor's question, then sends a runner (`executor`) to carry that route out. The filing cabinets know which rooms tenants are in; the status board knows which rooms are clean. Deciding the route and walking it are separate steps.
 
@@ -18,42 +20,50 @@ Each building also has an attached warehouse (`TOAST table`) for tenants with ov
 ---
 ## The ticket dispenser
 
-There is a ticket dispenser at each district gate. Everyone entering the district — visitors asking questions and movers placing or removing tenants — pulls a ticket. The tickets are numbered sequentially from a single campus-wide counter. A visitor or mover holds their ticket until they leave and hand it back.
-When a mover places a tenant in a room, they write their own ticket number on the tenant's registration card in the check-in field (xmin). When a different mover later clears a tenant out or reassigns them to another room, that mover writes their ticket number in the check-out field (xmax). The tenant's belongings stay in the old room. The card now has two numbers: one saying when the tenant arrived in the sequence, one saying when they left.
-The belongings are still in the room, but the housekeeper cannot just walk in and clear them. She has to check who is still sitting at the district food court. If a visitor is sitting there holding ticket 500, and the check-out field on the card says 600, that visitor entered the district before the tenant left. From where that visitor sits in the sequence, the tenant was still there when they walked in. Clearing those belongings would break whatever that visitor came to find out. The housekeeper leaves the room untouched until that visitor finishes and hands back their ticket.
-The oldest ticket still held by anyone at the district food court — visitor or mover — is the district's horizon (OldestXmin). The housekeeper reads the check-out field on each card and compares it to the horizon. Below the horizon: everyone who was in the district when this tenant left has since handed back their ticket. She clears the room. At or above the horizon: someone might still need to see those belongings. She moves on.
-One idle visitor is enough. Someone who pulled ticket 500, got their answer, and sat down at the food court to read a newspaper — an application that opened a transaction and never committed — keeps the horizon pinned at 500 while the dispenser climbs past 50,000. Every room checked out after 500 is unclearable across the entire district. Not because those rooms have anything to do with that visitor's question, but because the housekeeper cannot know which rooms the visitor might still consult.
+There is a ticket dispenser at each district gate. Everyone entering the district — visitors asking questions and movers placing or removing tenants — pulls a ticket. The tickets are numbered sequentially from a single campus-wide counter. When a mover places a tenant in a room, they write their own ticket number on the room's door plate as the tenant's check-in number (`xmin`). When a different mover later moves a tenant out or reassigns them to another room, that mover writes their ticket number on the door plate as the tenant's check-out number (`xmax`). The tenant's belongings stay in the old room. The door plate now has two numbers for that tenant: one saying when they arrived in the sequence, one saying when they left.
+
+When a tenant is reassigned — moved to a new room with updated belongings — the mover writes the same ticket number in two places: the check-out field on the old room's door plate, and the check-in field on the new room's door plate. One ticket, two writes. The old belongings stay in the old room. The new belongings go in the new room. Nothing is overwritten, nothing is moved.
+
+The counter is finite. Thirty-two bits, about four billion numbers, arranged in a circle — after four billion, it wraps to zero. The system tells old from new by measuring the distance around the circle: anything less than two billion ahead of the current position is in the future, anything behind is in the past. That comparison holds as long as no number is so old it has drifted more than halfway around the ring, at which point it flips from past to future and the system can no longer tell the difference. This is why the housekeeper stamps long-resident tenants permanent: their check-in number on the door plate is replaced with a marker meaning "old, always in the past, don't compare." Out of the numbering game. Can never wrap around. Every building tracks its oldest unstamped number (`relfrozenxid`). One stuck building holds back the whole campus.
+
+## Ticket holders
+
+A visitor or mover holds their ticket from the moment they pull it until they leave the district and hand it back. While they do, the housekeeper has a problem.
+
+The housekeeper cannot just walk into a room and clear a departed tenant's belongings. They have to check who is still sitting at the district food court. If a visitor is sitting there holding ticket number one thousand, and a door plate's check-out field for a departed tenant says one thousand-and-one, that visitor entered the district before the tenant left. From where that visitor sits in the sequence, the tenant was still there when they walked in. Clearing those belongings could break whatever that visitor came to find out. The housekeeper leaves the room untouched until that visitor finishes and hands back their ticket.
+
+The oldest ticket still held by anyone at the food court — visitor or mover — is the district's horizon (`OldestXmin`). The housekeeper reads the check-out field on each door plate entry and compares it to the horizon. Below the horizon: everyone who was in the district when this tenant left has since handed back their ticket, which means the belongings can be cleared. At or above the horizon: someone might still need to see them.
+
+One idle visitor is enough. Someone who pulled ticket number one thousand, got their answer, and sat down at the food court to read a newspaper — an application that opened a transaction and never committed — keeps the horizon pinned at one thousand while the dispenser climbs into the millions. Every room checked out after one thousand is unclearable across the entire district. Not because those rooms have anything to do with that visitor's question, but because the housekeeper cannot know which rooms the visitor might still consult.
 
 ## The auditor
 
-Some campuses are legally required to keep a duplicate of every registration card filed at an offsite auditor's office (replication). The auditor receives copies in sequence and processes them in order, always somewhat behind. They leave a standing note at the main campus gate — not at any district gate, but at the central entrance: "I have reviewed up to card 3,000."
-That note pins the horizon campus-wide. A housekeeper in any district, in any building, cannot clear belongings whose check-out ticket is above 3,000 — because the auditor hasn't processed them yet, and the duplicate records must remain reconstructable until they have.
-If the auditor goes silent — office closed, lost their lease, abandoned their obligations — the note stays at the gate. The campus accumulates unclearable belongings from card 3,000 forward, in every district, indefinitely, for a consumer who is never coming back. The note must be pulled manually before the horizon can advance.
-If the campus's own records are destroyed — fire, flood, administrative catastrophe — the auditor's duplicate cards are the legally valid backup from which the campus can be reconstructed. This is why the requirement exists.
+Some campuses are legally required to keep a duplicate of every door plate entry filed at an offsite auditor's office (replication). The auditor receives copies in sequence and processes them in order, always somewhat behind. They leave a standing note at the main campus gate — not at any district gate, but at the central entrance: "I have reviewed up to entry 3,000."
+That note pins the horizon campus-wide. A housekeeper in any district, in any building, cannot clear belongings whose check-out number is above 3,000 — because the auditor hasn't processed them yet, and the duplicate records must remain reconstructable until they have.
+If the auditor goes silent — office closed, lost their lease, abandoned their obligations — the note stays at the gate. The campus accumulates unclearable belongings from entry 3,000 forward, in every district, indefinitely, for a consumer who is never coming back. The note must be pulled manually before the horizon can advance.
+If the campus's own records are destroyed — fire, flood, administrative catastrophe — the auditor's duplicate entries are the legally valid backup from which the campus can be reconstructed. This is why the requirement exists.
 Prepared transactions (PREPARE TRANSACTION) work similarly: paperwork left at the central registrar's desk, neither confirmed nor cancelled. The registrar set aside resources and is waiting for a signature one way or the other. Until it comes, that paperwork holds its ticket number open at the main gate — not at any district gate — pinning the horizon campus-wide for all districts.
 
 
 ## What housekeeping does
 
-A housekeeper (`VACUUM`) visits a building and walks room by room. In each room, they do whatever combination of the three jobs the room needs — the board entry re-checked after any clearing or stamping. A room never wants a census; that's building-level work (below).
+A housekeeper (`VACUUM`) visits a building and walks room by room. In each room, they read the door plate and do whatever combination of the three jobs the room needs — the board entry re-checked after any clearing or stamping. A room never wants a census; that's building-level work (below).
 
 ### Room turnover
 
-When tenants leave campus (`DELETE`) or get assigned to new rooms (`UPDATE` — which in this system creates new belongings for a tenant in another room), their belongings remain in the old room. The housekeeper clears out the old things and updates the building's free-space registry (`free space map`) so the front desk knows the room has space for new arrivals.
+When tenants leave campus (`DELETE`) or get reassigned to new rooms (`UPDATE` — which creates new belongings in another room while the old belongings stay behind), the housekeeper clears out the old belongings and updates the building's free-space registry (`free space map`) so the front desk knows the room has space for new arrivals.
 
-If this work falls behind, tenants' stuff left in rooms they departed from accumulates. New arrivals get directed to fresh rooms because existing rooms aren't marked as having space. The building grows larger than its active population justifies, which is known as bloat.
+If this work falls behind, belongings left in rooms by departed tenants accumulate. New arrivals get directed to fresh rooms because existing rooms aren't marked as having space. The building grows larger than its active population justifies, which is known as bloat.
 
 Two things keep bloat sticky even when the housekeeper keeps pace with departures. The first is that emptying a room frees its space for reuse but doesn't shrink the building. The housekeeper consolidates the free space in a cleared room and tells the front desk the room is available, but the building keeps its footprint: an empty room in the middle of the building stays part of the building, and only when the rooms at the very end are all empty can the outer wall be pulled in.
 
 The second is that placement is per room. A new arrival goes into a room only if that room has enough free space for their setup, and setups vary in size. The space freed inside any one room is contiguous, but it's scattered across many rooms in small amounts, so an arrival who needs more than any single room currently offers gets a fresh room opened for them — even though the building-wide total would easily have covered it. On this alone a building can keep growing, even with diligent turnover.
 
-The housekeeper also pulls stale cards from the filing cabinets — entries pointing to rooms where the tenant they reference has already departed.
+The housekeeper also pulls stale entries from the filing cabinets — entries pointing to rooms where the tenant they reference has already departed.
 
 ### Registration stamping
 
-Every tenant arrives with a temporary registration number drawn from a campus-wide pool (`transaction ID`). The pool is finite — about four billion numbers on a circular counter (`32-bit XID space`). The numbers go up. After four billion, they wrap to zero. The system determines whether a registration is old or new by measuring the distance around the circle: anything less than two billion ahead is "in the future," anything behind is "in the past."
-
-A housekeeper stamps long-resident tenants as permanent (`freezing`): the housekeeper replaces the tenant's temporary registration number with a marker that means "old, always in the past, don't compare." That tenant is out of the numbering game. The stamp doesn't change anything about the tenant's belongings, their room, or who can visit them — it only changes the registration card, though writing and filing that card is itself work.
+The ticket dispenser section above explains why this is necessary: the campus-wide counter is finite and circular, and temporary registration numbers that sit on door plates too long eventually wrap around and read as future-dated. The housekeeper stamps long-resident tenants permanent (`freezing`), replacing the check-in number on their door plate entry with a marker meaning "old, always in the past, don't compare."
 
 By default, a tenant must be at least fifty million registrations old (`vacuum_freeze_min_age`) before the housekeeper bothers — about 2.5% of the two-billion span before a registration would start reading as future-dated, so stamping begins long before that limit.
 
@@ -65,7 +75,7 @@ This is the wraparound emergency. The registration office shuts down because the
 
 Every building has a lobby status board (`visibility map`) with one entry per room. Each entry has two flags:
 
-The first flag — settled (`all-visible`) — means all tenants in this room are accounted for, no departed tenants' belongings need clearing. The second flag — completed (`all-frozen`) — means all tenants in this room have been stamped permanent.
+The first flag — settled (`all-visible`) — means every tenant listed on that room's door plate is accounted for, no departed tenants' belongings need clearing. The second flag — completed (`all-frozen`) — means every tenant listed on that room's door plate has been stamped permanent.
 
 The status board has two customers:
 
@@ -87,7 +97,7 @@ A visitor asks: "Where can I find Armenian linguists?" The front desk checks the
 
 The census is conducted by a separate census taker (`ANALYZE` command). The census taker visits the building, samples a number of rooms, records the distributions, and updates the front desk's reference materials (`pg_statistic`).
 
-The head only picks the building. The worker, once there, decides what it needs: a cleaning round (which stamps as it goes, and may be triggered by registration age alone), a census, or both — each decision against its own thresholds (autovacuum_vacuum_* for the round, autovacuum_analyze_* for the census). One visit, separate triggers.
+The head only picks the building. The worker, once there, decides what it needs: a cleaning round (which stamps as it goes, and may be triggered by registration age alone), a census, or both — each decision against its own thresholds (`autovacuum_vacuum_*` for the round, `autovacuum_analyze_*` for the census). One visit, separate triggers.
 
 ---
 
@@ -105,11 +115,11 @@ The pool size is configurable. Adding more housekeepers helps until the campus's
 
 ### Routine
 
-The standard dispatch. The housekeeper visits a building, walks room by room, does whatever combination of cleaning, stamping, and board-updating each room needs. They throttle themselves — working a bit, pausing, working a bit, pausing (`cost-based delay`) — so they don't disrupt the residents. If they're interrupted by other activity in the building, they give up gracefully and the building goes back into the dispatch queue.
+The standard dispatch. The housekeeper visits a building, walks room by room, reads each door plate, does whatever combination of cleaning, stamping, and board-updating each room needs. They throttle themselves — working a bit, pausing, working a bit, pausing (`cost-based delay`) — so they don't disrupt the residents. If they're interrupted by other activity in the building, they give up gracefully and the building goes back into the dispatch queue.
 
 ### Aggressive
 
-Same housekeeper, different orders. When a building's oldest unstamped registration has aged past a threshold (`autovacuum_freeze_max_age`), the head dispatches them specifically to advance the building's registration horizon, and they work differently. They ignore the settled flag: a room can be settled — no belongings left to clear — and still hold tenants who were never stamped, so they have to go in and check it. What they can still skip are rooms marked completed, where every tenant is already permanent. For every unstamped tenant they find, they write a fresh permanent card — real work and real paperwork, which is why a freeze pass is I/O-heavy.
+Same housekeeper, different orders. When a building's oldest unstamped registration has aged past a threshold (`autovacuum_freeze_max_age`), the head dispatches them specifically to advance the building's registration horizon, and they work differently. They ignore the settled flag: a room can be settled — no belongings left to clear — and still have tenants listed on its door plate who were never stamped, so they have to go in and check. What they can still skip are rooms marked completed, where every entry on the door plate is already permanent. For every unstamped tenant they find, they update the door plate entry — replacing the temporary check-in number with a permanent stamp. Real work and real paperwork, which is why a freeze pass is I/O-heavy.
 
 On a well-maintained building where the completed flags are current, most rooms are skipped and the pass is cheap. On a building where the flags have gone stale, almost every room needs an actual visit and the pass is expensive.
 
@@ -119,7 +129,7 @@ The campus administrator can dispatch a housekeeper directly, bypassing the head
 
 ### Special: Out of Scope
 
-There is an additional command also having vacuum in its name, `VACUUM FULL`, which isn't run by the autovacuum daemon nor does it perform any incremental dead row removal, visibility map updates or tuple freezing. It does something else entirely: rewriting the whole table from scratch which then implicitly results in zero dead rows, all frozen tuples, fresh indexes. This additional layer of confusion will be thankfully removed in the upcoming major version 19 by renaming the command to `REPACK` (which invites fresh confusion again, against a tradeoff of leveraging established terminology with a very popular extension, `pg_repack` doing the same but differently).
+There is an additional command also having vacuum in its name, `VACUUM FULL`, which isn't run by the autovacuum daemon nor does it perform any incremental dead row removal, visibility map updates or tuple freezing. It does something else entirely: rewriting a whole table from scratch which then implicitly results in zero dead rows, all frozen tuples and fresh compact indexes. Version 19 adds `REPACK` which subsumes `VACUUM FULL` while expanding its functionality, leveraging established terminology from the popular `pg_repack` extension.
 
 ---
 
@@ -127,7 +137,7 @@ There is an additional command also having vacuum in its name, `VACUUM FULL`, wh
 
 When a building approaches its registration deadline and routine stamping clearly won't catch up, the head of housekeeping calls in the compliance officer (`failsafe vacuum`, PostgreSQL 14). They're a stern bureaucrat from the campus housing authority whose only job is processing registrations before deadlines.
 
-They don't care about cleaning, don't care about the census, don't update the status board. They visit every room with unstamped tenants, stamp them permanent at maximum speed — no throttling, no pausing for residents — and leave when the deadline is no longer in immediate danger.
+They don't care about cleaning, don't care about the census, don't update the status board. They visit every room with unstamped tenants on the door plate, stamp them permanent at maximum speed — no throttling, no pausing for residents — and leave when the deadline is no longer in immediate danger.
 
 The compliance officer arriving means the situation got away from routine maintenance. That's not necessarily the housekeeper's fault — the building might have an unusually high arrival rate, or something blocked routine work long enough for pressure to accumulate past safe levels.
 
@@ -145,7 +155,7 @@ Fix: raise the housekeeper's work-rate limit (`autovacuum_vacuum_cost_limit`) or
 
 One researcher is on a publication deadline, running around the building consulting colleagues. Nothing in the building can be cleared until their work is finished, because they might need to visit any room at any time. The housekeeper can still stamp tenants permanent — that doesn't move or change anything they depend on — but they can't clear departed tenants' belongings.
 
-The stuck belongings contain old registration numbers. The building's registration horizon (`relfrozenxid`) can't advance past them. The stamping work proceeds but the building-level deadline doesn't move. One building's stuck deadline holds back the district. The district holds back the campus.
+The departed tenants' door plate entries carry old registration numbers. The building's registration horizon (`relfrozenxid`) can't advance past them. The stamping work proceeds but the building-level deadline doesn't move. One building's stuck deadline holds back the district. The district holds back the campus.
 
 Fix: find the researcher and get them to finish — or cancel their work. In PostgreSQL terms: identify the long-running transaction (`pg_stat_activity`), the unused replication slot (`pg_replication_slots`), or the abandoned prepared transaction (`pg_prepared_xacts`) that's pinning the horizon, and close it.
 
