@@ -39,10 +39,13 @@ One idle visitor is enough. Someone who pulled ticket number one thousand, got t
 ## The auditor
 
 Some campuses are legally required to keep a duplicate of every door plate entry filed at an offsite auditor's office — the best we can do here for now as to mapping PostgreSQL's replication onto the campus metaphor: There's just no real world sense to having an exact copy of an entire campus somewhere. Just like the library metaphor strains at dead tuple cleanup, so does the campus metaphor when replication comes into play.
-The auditor receives copies in sequence and processes them in order, always somewhat behind. They leave a standing note at the main campus gate — not at any district gate, but at the central entrance: "I have reviewed up to entry 3,000."
-That note pins the horizon campus-wide. A housekeeper in any district, in any building, cannot clear belongings whose check-out number is above 3,000 — because the auditor hasn't processed them yet, and the duplicate records must remain reconstructable until they have.
-If the auditor goes silent — office closed, lost their lease, abandoned their obligations — the note stays at the gate. The campus accumulates unclearable belongings from entry 3,000 forward, in every district, indefinitely, for a consumer who is never coming back. The note must be pulled manually before the horizon can advance.
+
+The auditor receives copies in sequence and processes them in order, always somewhat behind. They leave a standing note at the main campus gate — not at any district gate, but at the central entrance: "I have reviewed up to entry number one million." That note pins the horizon campus-wide. A housekeeper in any district, in any building, cannot clear belongings whose check-out number is above the review threshold — because the auditor hasn't processed them yet, and the duplicate records must remain reconstructable until they have.
+
+If the auditor goes silent — office closed, lost their lease, abandoned their obligations — the note stays at the gate. The campus accumulates unclearable belongings from te threshold forward, in every district, indefinitely, for a consumer who is never coming back. The note must be pulled manually before the horizon can advance.
+
 If the campus's own records are destroyed — fire, flood, administrative catastrophe — the auditor's duplicate entries are the legally valid backup from which the campus can be reconstructed. This is why the requirement exists.
+
 Prepared transactions (PREPARE TRANSACTION) work similarly: paperwork left at the central registrar's desk, neither confirmed nor cancelled. The registrar set aside resources and is waiting for a signature one way or the other. Until it comes, that paperwork holds its ticket number open at the main gate — not at any district gate — pinning the horizon campus-wide for all districts.
 
 
