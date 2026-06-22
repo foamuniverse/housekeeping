@@ -34,7 +34,7 @@ The housekeeper cannot just walk into a room and clear a departed tenant's belon
 
 The oldest ticket still held by anyone at the food court waiting area is the district's horizon (`OldestXmin`). The housekeeper reads the check-out field on each door plate entry and compares it to the horizon. Below the horizon: everyone who was in the district when this tenant left has since handed back their ticket, which means the belongings can be cleared. At or above the horizon: someone might still need to see them.
 
-One idle visitor is enough. Someone who pulled ticket number one thousand, got their answer, and sat down to relax at the food court waiting are with a coffee to read a newspaper — an application that opened a transaction and never committed — keeps the horizon pinned at one thousand while the dispenser climbs into the millions. Every room checked out after one thousand is unclearable across the entire district. Not because those rooms have anything to do with that visitor's question, but because the housekeeper cannot know which rooms the visitor might still consult.
+One idle visitor is enough. Someone who pulled ticket number one thousand, got their answer, and sat down to relax at the food court waiting area with a coffee to read a newspaper — an application that opened a transaction and never committed — keeps the horizon pinned at one thousand while the dispenser climbs into the millions. Every room checked out after one thousand is unclearable across the entire district. Not because those rooms have anything to do with that visitor's question, but because the housekeeper cannot know which rooms the visitor might still consult.
 
 ## The auditor
 
