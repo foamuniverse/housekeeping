@@ -5,9 +5,9 @@
 
 # Cache Invalidation, Naming, Off-by-One Errors and PostgreSQL's VACUUM
 
-Databases are all about shuffling data across a speed hierarchy: CPU caches to main memory to heap to write-ahead-logging to archive and all the way back — `VACUUM` in Michael Stonebraker's original 1980s Berkeley Postgres research prototype conception a pure instance of the tail end of that hierarchy: the no-overwrite storage model as an endless persistence cache, with a metaphorical vacuum cleaner sweeping obsoleted rows from expensive live onto archival storage.
+Databases are all about shuffling data across a speed hierarchy: CPU caches to main memory to heap to write-ahead-logging to archive and all the way back — `VACUUM` in Michael Stonebraker's original 1980s Berkeley Postgres research prototype conception a pure instance of the tail end of that hierarchy: the no-overwrite storage model as an endless persistence cache, with a metaphorical vacuum cleaner sweeping obsoleted rows from live heap onto archival storage.
 
-The improbably convergent historical twist dovetailing precisely onto Karlton and Bambrick is then how an originally intutively named command suggesting cleanup drifted over the next four decades to become the perfect illustration of the difficulties of cache invalidation, naming and counting things in computing: First transaction ID freezing layered onto space reclaiming, then visibility map maintenance shared between both functions performed by a daemon named after the original job also performing yet another named `ANALYZE`. Do we count it as two, three, or four functions misleadingly lumped under a vacuum cleaner metaphor?
+The improbably convergent historical twist dovetailing precisely onto Karlton and Bambrick is then how an originally intuitively named command suggesting cleanup drifted over the next four decades to become the perfect illustration of the difficulties of cache invalidation, naming and counting things in computing: First transaction ID freezing layered onto space reclaiming, then visibility map maintenance shared between both functions performed by a daemon named after the original job also performing yet another named `ANALYZE`. Do we count it as two, three, or four functions misleadingly lumped under a vacuum cleaner metaphor?
 
 
 
