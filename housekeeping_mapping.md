@@ -13,9 +13,9 @@ A campus (`cluster`) is made up of districts (`databases`). Each district contai
 
 Every room has a door plate visible from the corridor. The plate lists each tenant inside, one line per tenant, showing their check-in number, their check-out number if they've departed, and whether they've been stamped permanent. The housekeeper reads the plate from the corridor to decide what needs doing in the room.
 
-Each building has a records room with filing cabinets (`indexes`) that track where tenants are. The front desk (`query planner`) consults the filing cabinets and the building's lobby status board to decide the fastest way to answer a visitor's question, then sends a runner (`executor`) to carry that route out. The filing cabinets know which rooms tenants are in; the status board knows which rooms are clean. Deciding the route and walking it are separate steps.
+Each building has a records room with filing cabinets (`indexes`) that track where tenants are. The front desk (`query planner`) consults the filing cabinets and the building's lobby status board to decide the fastest way to answer a visitor's question, then sends a runner (`executor`) to carry that route out. The filing cabinets know which rooms tenants are in; the status board knows which rooms are clean.
 
-Each building also has an attached warehouse (`TOAST table`) for tenants with oversized belongings. Those tenants live in a normal room but keep a claim ticket (`TOAST pointer`) pointing to the warehouse. The warehouse needs its own housekeeping too, normally carried out alongside the building's.
+Each building also has an attached warehouse (`TOAST table`) for tenants with oversized belongings. Those tenants live in a normal room but keep a claim ticket (`TOAST pointer`) pointing to the warehouse. The warehouse needs its own housekeeping too.
 
 ---
 ## The ticket dispenser
