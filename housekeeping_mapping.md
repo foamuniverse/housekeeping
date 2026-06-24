@@ -3,7 +3,7 @@
 *This document proposes an alternative mapping vocabulary for a crucial subset of PostgreSQL's configuration and diagnostic terms, for explanatory purposes. The central term `VACUUM` — a single name covering several unrelated jobs, inherited from last-century designs — actively misleads about the task's contemporary scope. The aim is to give users a coherent lens to read the real terms through, not to suggest they be changed in software.*
 
 
-*Databases are commonly explained as libraries — the index is a card catalog, finding a book is a query. That metaphor covers lookups and stops. It has no room for dead rows accumulating on shelves, background maintenance, bloat, or registration wraparound, because a library's defining property is order, and the thing we need to explain is managed disorder. A campus contains a library, but it also contains buildings that get dirty, corridors that get congested, maintenance staff, a registration office, and a housing authority. The operational reality of a database fits inside a campus, not a library.*
+*Databases are commonly explained as libraries — the index is a card catalog, finding a book is a query. That metaphor covers lookups and stops. It has no room for dead rows accumulating on shelves, background maintenance, bloat, or registration wraparound. A campus contains a library, but it also contains buildings that get dirty, corridors that get congested, maintenance staff, a registration office, and a housing authority. The operational reality of a database fits inside a campus, not a library.*
 
 ---
 
