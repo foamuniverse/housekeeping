@@ -9,7 +9,7 @@
 
 ## The campus and its parts
 
-A campus (`cluster`) is made up of districts (`databases`). Each district contains buildings (`tables`). Each building is divided into rooms (`8KB heap pages`). Each room holds tenants (`tuples` — row versions) and their belongings (the column values, the data payload).
+A campus (`cluster`) is made up of districts (`databases`). Each district contains buildings (`tables`). Each building is divided into rooms (`8KB heap pages`). Each room holds tenants (`tuples`) and their belongings (the column values, the data payload).
 
 Every room has a door plate visible from the corridor. The plate lists each tenant inside, one line per tenant, showing their check-in number, their check-out number if they've departed, and whether they've been stamped permanent. The housekeeper reads the plate from the corridor to decide what needs doing in the room.
 
